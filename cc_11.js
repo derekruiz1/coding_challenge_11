@@ -32,7 +32,7 @@ class Borrower { //Created A borrower class
         this.borrowedBooks.push(book)
     }
     returnBook(book){ //Tracks books that are returned 
-        this.borrowedBooks.pop(book)
+        this.borrowedBooks.splice(book)
     }
 }
 
@@ -58,9 +58,26 @@ class Library { //Creating a library class
         this.books.forEach(book => 
             console.log(`Title: ${book.title}, Author: ${book.author}, ISBN: ${book.isbn}, Copies ${book.copies}`))
     }
+//Task 4 - Implementing Book Borrowing 
+    lendBook(borrowerId, isbn){
+        const book = this.books.find(book => book.isbn === isbn)
+        const borrower = this.borrowers.find(borrower => borrower.borrowerId === borrowerId)
+
+        if (book && borrower && book.copies > 0) { //Checking for both book and borrower
+            book.updateCopies(-1) //Reducing copies of book
+            borrower.borrowBook(book.title) //Logging book
+        }
+    }
 }
 //Task 3 - Test Data
 
 const library = new Library();
 library.addBook(book1);
 library.listBooks();
+
+//Task 4 - Test Data 
+library.lendBook(201, 123456);
+console.log(book1.getDetails());
+// Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 3"
+console.log(borrower1.borrowedBooks);
+// Expected output: ["The Great Gatsby"]
