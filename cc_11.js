@@ -68,6 +68,18 @@ class Library { //Creating a library class
             borrower.borrowBook(book.title) //Logging book
         }
     }
+    returnBook(borrowerId, isbn){
+        const book = this.books.find(book => book.isbn === isbn)
+        const borrower = this.borrowers.find(borrower => borrower.borrowerId === borrowerId)
+        if (borrower && book) { //Making sure borrower has specific book
+            const borrowedBook = borrower.borrowedBooks.find(b => b.isbn === isbn);
+
+        if (borrowedBook) {
+        borrower.returnBook(book);
+        book.updateCopies(1); // Returns copy of book
+    }
+}
+    }
 }
 //Task 3 - Test Data
 
@@ -81,3 +93,10 @@ console.log(book1.getDetails());
 // Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 3"
 console.log(borrower1.borrowedBooks);
 // Expected output: ["The Great Gatsby"]
+
+//Task 5 - Test Data
+library.returnBook(201, 123456);
+console.log(book1.getDetails());
+// Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 4"
+console.log(borrower1.borrowedBooks);
+// Expected output: []
